@@ -4,10 +4,10 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-
+import { dbConnection} from'./db.js';
 import 'dotenv/config';
 
-const niddlewares = (app) => {
+const middlewares = (app) => {
     app.use(express.json());
     app.use(express.urlencoded({extended: false}))
     app.use(cors());
@@ -15,14 +15,25 @@ const niddlewares = (app) => {
     app.use(morgan('dev'));
 }
 
-export const initServer = () => {
+const conectarDB = async () => {
+    try{
+        await dbConnection();
+    }catch(error){
+        console.log(`Error al conectar la db: ${error}`)
+    }
+}
+
+export const initServer = async () => {
     const app = express();
 
     try{
+
+        middlewares(app)
+        await conectarDB()
         app.listen(process.env.PORT,() => {
-            console.log(`hola ${process.env.PORT}`)
+            console.log(`Servidor corriendo en puerto ${process.env.PORT}`)
         })
     }catch(error){
-        console.log(`Error al iniciair el servidor: ${error}`);
+        console.log(`Error al iniciair el servidor: ${error.message}`);
     }
 }
