@@ -1,5 +1,5 @@
-import User from '../users/user.model.js'
-import { hash } from 'argon2'
+import User from '../users/user.mode.js'                 
+import { hash, verify } from 'argon2'
 import { generarJWT } from "../../helpers/JWT-generate.js"
 
 export const register = async (req, res) => {
@@ -11,7 +11,7 @@ export const register = async (req, res) => {
 
         const newUser = await User.create({
             name: data.name,
-            surname: data.surname,
+            surname: data.surname, 
             username: data.username,
             email: data.email,
             password: encryptedPassword,
@@ -35,8 +35,8 @@ export const login = async (req, res) => {
     const { email, password, username } = req.body;
 
     try {
-        const lowerEmail = email ? email.toLowercase() : null;
-        const lowerUsername = username ? username.toLowercase() : null;
+        const lowerEmail = email ? email.toLowerCase() : null;
+        const lowerUsername = username ? username.toLowerCase() : null;
 
         const user = await User.findOne({
             $or: [{ email: lowerEmail }, { username: lowerUsername }],
