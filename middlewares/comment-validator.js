@@ -1,0 +1,14 @@
+import { check } from "express-validator";
+import { validarCampos } from "./validate-values.js";
+import { validateJWT } from "./jwt-verify.js";
+import {existePost, existeComment, isCommentOWner} from "../helpers/db-validators.js"
+
+export const createCommentValidator = [
+    validateJWT,
+    check("text", "El texto del comentario es obligatorio").not().isEmpty(),
+    check("text", "El cometario debe tener maximo 500 caracteres").isLength({ max: 500}),
+    check("post", "El ID del post es obligatorio ").not().isEmpty(),
+    check("post", "El ID del port debe ser un ObjectID valido").isMongoId(),
+    check("post").custom(existePost),
+    validarCampos,
+];

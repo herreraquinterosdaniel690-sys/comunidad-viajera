@@ -3,10 +3,11 @@ import { createPost,
      getAllPost, 
      getPostById
 } from './post.controller.js'
+import { createPostValidator } from '../../middlewares/post-validator.js'
 
 const router = Router()
 
-router.post('/', createPost)
+router.post('/', createPostValidator, createPost)
 
 router.get('/', getAllPost)
 
