@@ -4,11 +4,13 @@ import Comment from '../comments/comment.model.js'
 
 export const createPost = async (req, res) => {
     try{
-        const { tittle, content} = req.body
+        const { title, content} = req.body
         const authorId = req.uid 
 
+        console.log(title, content, authorId)
+
         const post = await Post.create({
-            tittle,
+            title,
             content,
             author: authorId
         })
@@ -77,15 +79,16 @@ export const getPostById = async (req, res) => {
         const { id } = req.params
 
         const post = await Post.findById(id)
-        .populate('author', 'name surname username profilePicture')
+        /*.populate('author', 'name surname username profilePicture')
         .populate({
             path: 'coments',
             populate:{
                 path: 'author',
                 select: 'name surname username profilePicture'
             }
-        })
+        })*/
 
+                console.log(post)
         return res.status(200).json({
             message: 'Publicacion obtenida exitosamente',
             post

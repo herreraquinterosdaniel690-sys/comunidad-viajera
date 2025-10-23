@@ -3,7 +3,7 @@ import { createPost,
      getAllPost, 
      getPostById
 } from './post.controller.js'
-import { createPostValidator } from '../../middlewares/post-validator.js'
+import { createPostValidator, getPostValidator } from '../../middlewares/post-validator.js'
 
 const router = Router()
 
@@ -11,6 +11,6 @@ router.post('/', createPostValidator, createPost)
 
 router.get('/', getAllPost)
 
-router.get('/:id', getPostById)
+router.get('/:id', getPostValidator, getPostById)
 
 export default router

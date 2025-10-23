@@ -1,6 +1,5 @@
 import Comment from "./comment.model.js";
 import Post from "../post/post.model.js";
-import { populate } from "dotenv";
 
 export const createComment = async (req, res) => {
     try {

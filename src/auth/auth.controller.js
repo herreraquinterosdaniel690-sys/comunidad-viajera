@@ -6,7 +6,7 @@ export const register = async (req, res) => {
     try{
         const data = req.body
         
-        let profilePicture = req.fileRelativePath || 'profiles/default-avatar.png'
+        let profilePicture = /*req.fileRelativePath ||*/ 'profiles/default-avatar.png'
         const encryptedPassword = await hash(data.password)
 
         const newUser = await User.create({
@@ -15,7 +15,7 @@ export const register = async (req, res) => {
             username: data.username,
             email: data.email,
             password: encryptedPassword,
-            profilePicture
+            profilePisture: profilePicture
         })
         return res.status(200).json({
             message: "Usuario registrado correctamente",
@@ -52,13 +52,14 @@ export const login = async (req, res) => {
         }
 
         const token = await generarJWT(user.id, user.email);
+        console.log(token)
 
         return res.status(200).json({
             message: "inicio e sesión exitoso",
             userDetails: {
                 username: user.username,
                 token: token,
-                profilePicture: user.profilePicture,
+                profilePicture: user.profilePisture,
                 uid: user.id
             },    
             });
