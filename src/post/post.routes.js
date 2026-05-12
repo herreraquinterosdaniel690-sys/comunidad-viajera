@@ -4,13 +4,15 @@ import { createPost,
      getPostById
 } from './post.controller.js'
 import { createPostValidator, getPostValidator } from '../../middlewares/post-validator.js'
+import { validateJWT } from "../../middlewares/jwt-verify.js";
+import { publicLimiter, authtenticatedLimiter } from "../../middlewares/request-limit.js";
 
 const router = Router()
 
-router.post('/', createPostValidator, createPost)
+router.post('/', validateJWT, authtenticatedLimiter, createPostValidator, createPost)
 
-router.get('/', getAllPost)
+router.get('/', publicLimiter, getAllPost)
 
-router.get('/:id', getPostValidator, getPostById)
+router.get('/:id', publicLimiter, getPostValidator, getPostById)
 
 export default router

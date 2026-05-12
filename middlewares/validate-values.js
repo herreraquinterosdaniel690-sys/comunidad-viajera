@@ -3,10 +3,11 @@ import { validationResult } from 'express-validator'
 export const validarCampos = (req, res, next) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
-        const error = new Error('Errores de validacion')
-        error.status = 400
-        error.errors = errors.array()
-        return res.status(400).json(error)
+        console.log("❌ ERRORES DE VALIDACIÓN:", errors.array());
+        return res.status(400).json({
+            message: 'Errores de validación',
+            errors: errors.array()
+        })
     }
     next()
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import express from "express";
 import { register,login } from "./auth.controller.js"
+import { publicLimiter, loginLimiter } from "../../middlewares/request-limit.js"
 import { uploadProfilePicture } from "../../middlewares/file-uploader.js";
 import { loginValidator, registerValidator } from "../../middlewares/auth-validator.js";
 import { dirname, join } from "path";
@@ -11,12 +12,13 @@ const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
 const router = Router()
 
 router.post('/register', 
+  publicLimiter,
     uploadProfilePicture.single('profilePicture'), 
     registerValidator,
     register
 )
 
-router.post('/login', loginValidator,login)
+router.post('/login', loginLimiter, loginValidator,login)
 
 router.use(
     "/getImage",

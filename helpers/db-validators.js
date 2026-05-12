@@ -1,4 +1,4 @@
-import User from '../src/users/user.mode.js '
+import User from '../src/users/user.mode.js'
 import Post from '../src/post/post.model.js'
 
 export const emailExist = async (email = '') => {

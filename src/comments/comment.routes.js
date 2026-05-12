@@ -1,10 +1,15 @@
 import { Router } from "express";
-import { createComment } from "./comment.controller.js";
+import { createComment, getComments } from "./comment.controller.js";
 import { createCommentValidator } from "../../middlewares/comment-validator.js";
+import { validateJWT } from "../../middlewares/jwt-verify.js";
+import { publicLimiter, authtenticatedLimiter } from "../../middlewares/request-limit.js";
 
 const router = Router();
 
 // Crear comentario
-router.post("/", createCommentValidator, createComment);
+router.post("/", validateJWT, authtenticatedLimiter, createCommentValidator, createComment);
+
+// Obtener comentarios de una publicación
+router.get("/:postId", publicLimiter, getComments);
 
 export default router;

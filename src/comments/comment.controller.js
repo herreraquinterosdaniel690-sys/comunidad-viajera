@@ -3,7 +3,7 @@ import Post from "../post/post.model.js";
 
 export const createComment = async (req, res) => {
     try {
-        const { text, post } =  req.body ;
+        const { text, post } = req.body;
         const authorId = req.uid;
 
         const comment = await Comment.create({
@@ -12,24 +12,43 @@ export const createComment = async (req, res) => {
             author: authorId,
 
         });
-         
+
         // Agregar el comentario al array de comentarios del post
         await Post.findByIdAndUpdate(post, {
-            $push: { comments: comment._id}
+            $push: { comments: comment._id }
 
         });
         const populatedComment = await Comment.findById(comment._id)
-        .populate('author','username name surname profilePicture')
-        .populate('post','title');
+            .populate('author', 'username name surname profilePicture')
+            .populate('post', 'title');
 
         return res.status(201).json({
             message: "Comentario creado exitosamente",
             comment: populatedComment,
         });
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         return res.status(500).json({
             message: "Error al crear el comentario",
+            error: error.message,
+        });
+    }
+};
+
+export const getComments = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const comments = await Comment.find({ post: postId }).populate(
+            "author",
+            "username name surname profilePicture"
+        );
+        return res.status(200).json({
+            message: "Comentarios obtenidos exitosamente",
+            comments,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error al obtener los comentarios",
             error: error.message,
         });
     }
