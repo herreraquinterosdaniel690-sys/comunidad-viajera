@@ -15,7 +15,11 @@ const placeSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Country',
         required: [true, "El país es obligatorio"]
-    }
+    },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'PlaceComment'
+    }]
 }, {
     timestamps: true,
     versionKey: false

@@ -6,14 +6,16 @@ import { uploadProfilePicture } from "../../middlewares/file-uploader.js";
 import { loginValidator, registerValidator } from "../../middlewares/auth-validator.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import { handleMulterError } from "../../middlewares/multer-error-handler.js";
 
 const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
 
 const router = Router()
 
-router.post('/register', 
+router.post('/register',
   publicLimiter,
-    uploadProfilePicture.single('profilePicture'), 
+    uploadProfilePicture.single('profilePicture'),
+    handleMulterError,
     registerValidator,
     register
 )

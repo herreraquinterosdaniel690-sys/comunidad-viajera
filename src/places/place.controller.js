@@ -67,3 +67,28 @@ export const getPlacesByCountry = async (req, res) => {
         });
     }
 };
+
+export const getPlaceById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const place = await Place.findById(id).populate('pais', 'nombre bandera');
+
+        if (!place) {
+            return res.status(404).json({
+                success: false,
+                message: "Lugar turístico no encontrado"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            place
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "Error al obtener el lugar turístico",
+            err
+        });
+    }
+};

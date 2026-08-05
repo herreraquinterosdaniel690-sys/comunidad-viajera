@@ -11,6 +11,7 @@ import postRoutes from '../src/post/post.routes.js'
 import commentRoutes from '../src/comments/comment.routes.js'
 import countryRoutes from '../src/countries/country.routes.js'
 import placeRoutes from '../src/places/place.routes.js'
+import placeCommentRoutes from '../src/places/placeComment.routes.js'
 import { handleErrors } from '../middlewares/handle-errors.js'
 import { seedDatabase } from './seeder.js'
 import { dirname, join } from 'path';
@@ -42,6 +43,7 @@ const routes = (app) => {
     app.use('/api/comments', commentRoutes)
     app.use('/api/countries', countryRoutes)
     app.use('/api/places', placeRoutes)
+    app.use('/api/place-comments', placeCommentRoutes)
     app.use('/api/uploads', express.static(join(__dirname, '../assets/img')))
     app.use('/uploads', express.static(join(__dirname, '../assets/img/places')))
 }
