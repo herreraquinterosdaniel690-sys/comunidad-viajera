@@ -14,7 +14,15 @@ export const createPost = async (req, res) => {
 
         const authorId = req.uid
 
-
+        if (!title) {
+            return res.status(400).json({ message: 'El titulo es obligatorio' });
+        }
+        if (title.length > 100) {
+            return res.status(400).json({ message: 'El titulo no debe de exceder los 100 caracteres' });
+        }
+        if (!content) {
+            return res.status(400).json({ message: 'El contenido es obligatorio' });
+        }
 
         console.log(title, content, authorId)
 
