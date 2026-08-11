@@ -24,7 +24,7 @@ const router = Router()
 
 
 
-router.post('/', validateJWT, authtenticatedLimiter, uploadPostImage.single('image'), handleMulterError, createPostValidator, createPost)
+router.post('/', validateJWT, authtenticatedLimiter, createPostValidator, uploadPostImage.single('image'), handleMulterError, createPost)
 
 
 
